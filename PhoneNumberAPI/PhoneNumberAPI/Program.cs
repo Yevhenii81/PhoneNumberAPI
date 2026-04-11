@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PhoneNumberApi.Data;
 using PhoneNumberApi.Services;
 
@@ -12,7 +12,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<PhoneValidationService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new()
+    {
+        Title = "PhoneNumber API",
+        Version = "v1",
+        Description = "API для проверки и хранения телефонных номеров"
+    });
+});
 
 var app = builder.Build();
 
