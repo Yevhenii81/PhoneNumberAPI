@@ -4,7 +4,7 @@ services:
     container_name: jobparser_postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 111111111
+      POSTGRES_PASSWORD: ТВОЙ_ПАРОЛЬ
       POSTGRES_DB: phone_db
     ports:
       - "5432:5432"
@@ -27,7 +27,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=phone_db;Username=postgres;Password=11111111
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=phone_db;Username=postgres;Password=ТВОЙ_ПАРОЛЬ
     ports:
       - "7249:8080"
     depends_on:
