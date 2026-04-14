@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: jobparser_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 111111111
+      POSTGRES_DB: phone_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - jobparser_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  phonenumberapi:
+    build:
+      context: ./PhoneNumberAPI
+      dockerfile: Dockerfile
+    container_name: phonenumberapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=phone_db;Username=postgres;Password=11111111
+    ports:
+      - "7249:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - jobparser_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  jobparser_network:
+    driver: bridge

@@ -30,6 +30,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/", () => Results.Ok(new
+{
+    service = "PhoneNumberAPI",
+    version = "1.0.0",
+    status = "Running",
+    endpoints = new
+    {
+        checkNumber = "POST /PhoneNumber/check_number",
+        swagger = "GET /swagger (if Development)"
+    }
+}));
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
